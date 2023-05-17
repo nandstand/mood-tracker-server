@@ -1,5 +1,6 @@
 const express = require('express');
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const cors = require('cors');
 
 // Connect to database
@@ -56,26 +57,21 @@ app.get('/mood/:date', (req, res) => {
 });
 
 // Get the data for a specific month
-// Query database for all moods between the first and last day of the month
-// TODO: This is not working yet
-app.get('/mood/:year/:month', async (req, res) => {
-  try {
-    const year = parseInt(req.params.year, 10);
-    const month = parseInt(req.params.month, 10);
 
-    const moods = await Mood.findAll({
-      where: {
-        date: {
-          [Op.between]: [new Date(year, month - 1, 1), new Date(year, month, 0)]
-        },
-      },
-    });
-
-    res.json(moods);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
+app.get('/mood/:year/:month', (req, res) => {
+  const startDate = new Date(req.params.year, req.params.month - 1, 1);
+  console.log(startDate);
+  const endDate = new Date(req.params.year, req.params.month, 0);
+  console.log(endDate);
+  Mood.findAll({
+    where: {
+      date: {
+        [Op.between]: [startDate, endDate] // Operator BETWEEN
+      }
+    }
+  })
+    .then(moods => res.json(moods))
+    .catch(err => res.status(500).json({ message: 'An error occurred', error: err }));
 });
 
 
