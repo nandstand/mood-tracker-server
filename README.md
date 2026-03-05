@@ -1,5 +1,8 @@
 #### Simple Mood Tracker
 Simple Mood Tracker is a calendar app for tracking your mood each day using color. This is the backend component of the full stack app that I developed as part of a final project at the University of New Orleans for the class Developing Advanced Web Applications. It's responsible for handling requests from the frontend and managing data in a PostgreSQL database.
+
+Frontend repo: https://github.com/nandstand/mood-tracker-client
+
 ##### Features:
 - **Data Retrieval**: Fetch mood data (color data) for specific dates or months.
 - **Data Modification**: Update the mood data (color data) for a specific date.
